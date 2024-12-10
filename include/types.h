@@ -50,7 +50,7 @@ typedef enum newfs_file_type {
 #define NEWFS_ASSIGN_FNAME(pnewfs_dentry, _fname) memcpy(pnewfs_dentry->name, _fname, strlen(_fname))
 #define MAX_DENTRY_PERBLK()                 (NEWFS_BLK_SIZE() / sizeof(struct newfs_dentry))
 //计算偏移
-#define NEWFS_INO_OFS(ino)                  (super.ino_offset + (ino) * sizeof(struct newfs_inode_d))
+#define NEWFS_INO_OFS(ino)                  (super.ino_offset + ((ino) /  MAX_INODE_NUM_PERBLK) * NEWFS_BLK_SIZE() + ((ino) %  MAX_INODE_NUM_PERBLK) * sizeof(struct newfs_inode_d))
 #define NEWFS_DB_OFS(dno)                   (super.db_offset + NEWFS_BLKS_SIZE(dno))
 //判断节点类型
 #define NEWFS_IS_DIR(pinode)                (pinode->dentry->ftype == DIR)
